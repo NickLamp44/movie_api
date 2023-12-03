@@ -67,10 +67,7 @@ let topMovies = [
   },
 ];
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
-  flags: "a",
-});
-app.request(morgan("combined", { stream: accessLogStream }));
+app.use(morgan("combined"));
 
 app.get("/", (req, res) => {
   res.send("Welcome to myFlix!");
