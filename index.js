@@ -1,9 +1,7 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 bodyParser = require("body-parser");
 uuid = require("uuid");
-
-const app = express;
+const app = express();
 
 app.use(bodyParser.json());
 // Database
@@ -122,7 +120,7 @@ let topMovies = [
 ];
 
 // Gets data about users
-app.length("/users", (req, res) => {
+app.get("/users", (req, res) => {
   res.json(users);
 });
 
