@@ -3,20 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>documentation</title>
+    <title>myFlix App</title>
   </head>
   <body>
-    <h1>documentation</h1>
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam minus
-      nihil sequi nulla possimus iste placeat, odit hic? Provident voluptatum
-      est at? Suscipit quasi facere unde quo quas a aspernatur.
-    </div>
-    <div>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa laboriosam,
-      impedit nobis nisi eaque, suscipit exercitationem sint, aut minus vero
-      deleniti porro nesciunt doloremque ratione officia nemo deserunt quam.
-      Recusandae.
-    </div>
+    <h1>MyFlix Movie API</h1>
+    <p>
+      The MyFlix API is built with the REST architecture in mind. This API has
+      self-explanatory URLs, returns JSON responses, and uses standard HTTP
+      response codes.
+    </p>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Request</th>
+          <th scope="col">URL</th>
+          <th scope="col">HTTP Method</th>
+          <th scope="col">Request body data format</th>
+          <th scope="col">Response data format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get list a list of Users</td>
+          <td>/users</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>An array of JSON objects holding data about each user</td>
+        </tr>
+        <tr>
+          <td>Gets data about a specific user</td>
+          <td>/users/:name</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object with data about a specific user</td>
+        </tr>
+        <tr>
+          <td>Adds a new user</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>A JSON object holding data about the user to add</td>
+          <td>Adds a new User to the database</td>
+        </tr>
+
+        <tr>
+          <td>Deletes Users</td>
+          <td>/users/:name</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>Removes a User from the database</td>
+        </tr>
+        <tr>
+          <td>Updates a Users Favorite movie</td>
+          <td>/users/:name/:favMovie</td>
+          <td>PUT</td>
+          <td>a user and a new movie</td>
+          <td>updates a Users favorite movie in the data Base</td>
+        </tr>
+        <tr>
+          <td>Delete favMovie</td>
+          <td>/users/:favMovie</td>
+          <td>DELETE</td>
+          <td>Removes a users favorite movie</td>
+        </tr>
+        <tr>
+          <td>List of Movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>Returns an array of Movies</td>
+        </tr>
+        <tr>
+          <td>Gets data about a specific movie</td>
+          <td>/movies/:title</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            Returns a JSON object containing the information about a specific
+            user
+          </td>
+        </tr>
+        <tr>
+          <td>Gets information about a specific director</td>
+          <td>/movies/directors/:directorName</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>Returns data about a specific director</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
