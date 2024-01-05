@@ -1,0 +1,2 @@
+{"_id":{"$oid":"659613e84f3b90ea2185cec7"},"Username":"lamp5","Password":"Neuqua44","Email":"njlamparelli@gmail.com","Birthday":{"$date":{"$numberLong":"-145497600000"}}}
+{"_id":{"$oid":"659613fd4f3b90ea2185cec8"},"Username":"Nick44","Password":"Boston21","Email":"Nicklamp98@gmail.com","Birthday":{"$date":"1998-02-19T00:00:00Z"},"FavoriteMovies":[{"$oid":"65960b644f3b90ea2185cec4"},{"$oid":"65960b644f3b90ea2185cec4"},{"$oid":"65960b644f3b90ea2185cec4"},{"$oid":"65960a364f3b90ea2185cec3"}]}
