@@ -7,7 +7,7 @@ const Models = require("./models");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect("mongodb://localhost:8080/myFlixDB", {
+mongoose.connect("mongodb://localhost:27017/cfDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // CREATE
-app.post("/users", async (req, res) => {
+app.post("/Users", async (req, res) => {
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
 });
 
 // Get all Users
-app.get("/users", async (req, res) => {
+app.get("/Users", async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -63,7 +63,7 @@ app.get("/users", async (req, res) => {
 });
 
 // Get a user by Username
-app.get("/users/:Username", async (req, res) => {
+app.get("/Users/:Username", async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
@@ -75,7 +75,7 @@ app.get("/users/:Username", async (req, res) => {
 });
 
 // Get all Movies
-app.get("/movies", async (req, res) => {
+app.get("/Movies", async (req, res) => {
   await Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -87,7 +87,7 @@ app.get("/movies", async (req, res) => {
 });
 
 // Get a specific Movies
-app.get("/movies/:title", async (req, res) => {
+app.get("/Movies/:Title", async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       res.json(movie);
@@ -99,7 +99,7 @@ app.get("/movies/:title", async (req, res) => {
 });
 
 // Get movies with a specific genre
-app.get("/movies/genres/:genreName", async (req, res) => {
+app.get("/Movies/Genres/:genreName", async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.genreName })
     .then((movies) => {
       res.json(movies);
@@ -111,7 +111,7 @@ app.get("/movies/genres/:genreName", async (req, res) => {
 });
 
 // Get a movie with a specific director
-app.get("/movies/directors/:directorName", async (req, res) => {
+app.get("/Movies/Directors/:directorName", async (req, res) => {
   await Movies.findOne({ "Director.Name": req.params.directorName })
     .then((movies) => {
       res.json(movies);
@@ -123,13 +123,13 @@ app.get("/movies/directors/:directorName", async (req, res) => {
 });
 
 // Get Documentation page
-app.get("/documentation", (req, res) => {
+app.get("/Documentation", (req, res) => {
   res.sendFile("public/documentatio.html", { root: __dirname });
 });
 
 // UPDATE
 // Updates Users Info
-app.put("/users/:Username", async (req, res) => {
+app.put("/Users/:Username", async (req, res) => {
   await Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -152,7 +152,7 @@ app.put("/users/:Username", async (req, res) => {
 });
 
 // Adds a movie to a users lists of fav movies
-app.post("/users/:Username/movies/:MovieID", async (req, res) => {
+app.post("/Users/:Username/movies/:MovieID", async (req, res) => {
   await Users.findOneAndUpdate(
     { Username: req.params.Username },
     { $push: { FavoriteMovies: req.params.MovieID } },
@@ -169,7 +169,7 @@ app.post("/users/:Username/movies/:MovieID", async (req, res) => {
 
 // DELETE
 // Delete User by Username
-app.delete("/users/:Username", (req, res) => {
+app.delete("/Users/:Username", (req, res) => {
   Users.findOneAndRemove({ Username: req.params.userName })
     .then((user) => {
       if (!user) {
@@ -185,7 +185,7 @@ app.delete("/users/:Username", (req, res) => {
 });
 
 // Delete User favorite movie
-app.delete("/users/:id/:movieTitle", (req, res) => {
+app.delete("/Users/:id/:movieTitle", (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.userName },
     { $pull: { FavoriteMovies: req.params.MovieID } },
@@ -205,6 +205,6 @@ app.delete("/users/:id/:movieTitle", (req, res) => {
 });
 
 // Listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+app.listen(27017, () => {
+  console.log("Your app is listening on port 8080 :)");
 });
