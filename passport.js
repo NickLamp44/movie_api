@@ -2,11 +2,12 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const Models = require("./models");
 const passportJWT = require("passport-jwt");
-// Users
+
 let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
   ExtractJWT = passportJWT.ExtractJwt;
-// set local Strategy.
+
+// Set local Strategy.
 passport.use(
   new LocalStrategy(
     {
@@ -28,13 +29,14 @@ passport.use(
         console.log("finished");
         return callback(null, user);
       } catch (error) {
-        console.log(error);
+        console.error("Error in local strategy:", error);
         return callback(error);
       }
     }
   )
 );
 
+// Set JWT Strategy
 passport.use(
   new JWTStrategy(
     {
@@ -43,6 +45,9 @@ passport.use(
     },
     async (jwtPayload, callback) => {
       try {
+        console.log("JWT Strategy started");
+        console.log("JWT Payload:", jwtPayload);
+
         const user = await Users.findById(jwtPayload._id);
 
         if (!user) {
@@ -51,6 +56,7 @@ passport.use(
 
         return callback(null, user);
       } catch (error) {
+        console.error("Error in JWT strategy:", error);
         return callback(error);
       }
     }
