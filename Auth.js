@@ -8,7 +8,7 @@ let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     subject: user.Username,
     expiresIn: "7d",
-    algorith: "HS256",
+    algorith: "HS256", // algorithm used to "sign" or encode the values of the JWT
   });
 };
 
