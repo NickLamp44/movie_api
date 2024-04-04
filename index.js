@@ -20,6 +20,7 @@ let auth = require("./Auth")(app);
 
 const passport = require("passport");
 require("./passport");
+
 // CREATE
 app.post("/Users", async (req, res) => {
   await Users.findOne({ Username: req.body.Username })
@@ -205,21 +206,6 @@ app.post(
 
 // DELETE
 // Delete User by Username
-// app.delete("/Users/:Username", (req, res) => {
-//   Users.findOneAndDelete({ Username: req.params.userName })
-//     .then((user) => {
-//       if (!user) {
-//         res.status(400).send(req.params.userName + " was not found");
-//       } else {
-//         res.status(200).send(req.params.userName + " was deleted");
-//       }
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error: " + err);
-//     });
-// });
-
 app.delete(
   "/Users/:Username",
   passport.authenticate("jwt", { session: false }),
