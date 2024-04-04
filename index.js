@@ -16,6 +16,14 @@ mongoose.connect("mongodb://localhost:27017/cfDB", {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+<<<<<<< Updated upstream
+=======
+let auth = require("./auth")(app);
+
+const passport = require("passport");
+require("./passport");
+
+>>>>>>> Stashed changes
 // CREATE
 app.post("/Users", async (req, res) => {
   await Users.findOne({ Username: req.body.Username })
@@ -235,5 +243,5 @@ app.delete("/Users/:id/:movieTitle", (req, res) => {
 
 // Listen for requests
 app.listen(8080, () => {
-  console.log("Your app is listening on port 8080 :)");
+  console.log("Your app is listening on port 8080 :) Noice");
 });
