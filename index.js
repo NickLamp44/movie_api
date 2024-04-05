@@ -16,7 +16,7 @@ mongoose.connect("mongodb://localhost:27017/cfDB", {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-let auth = require("./Auth")(app);
+let auth = require("./auth")(app);
 
 const passport = require("passport");
 require("./passport");
