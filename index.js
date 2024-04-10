@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const Models = require("./models");
 const Movies = Models.Movie;
 const Users = Models.User;
+const { check, validationResult } = require("express-validator");
 
 mongoose.connect("mongodb://localhost:27017/cfDB", {
   useNewUrlParser: true,
@@ -16,38 +17,64 @@ mongoose.connect("mongodb://localhost:27017/cfDB", {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// CORS
+const cors = require("cors");
+app.use(cors());
+
+// AUTH
 let auth = require("./auth")(app);
 
 const passport = require("passport");
+const { validate } = require("uuid");
 require("./passport");
 
 // CREATE
-app.post("/Users", async (req, res) => {
-  await Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + "already exists");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then((user) => {
-            res.status(201).json(user);
+app.post(
+  "/Users",
+  [
+    check("Username", "Username is required").notEmpty(),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters - not allowed."
+    ).isAlphanumeric(),
+    check("Password", "Password is required").notEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
+  async (req, res) => {
+    // Validate Object for any errors
+    let errors = validateResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.arry() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+
+    await Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + "already exists");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send("Error: " + error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
-});
+            .then((user) => {
+              res.status(201).json(user);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send("Error: " + error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 
 // READ
 
@@ -250,6 +277,7 @@ app.delete(
 );
 
 // Listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080 :) Noice");
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
