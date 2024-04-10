@@ -1,0 +1,11 @@
+{"_id":{"$oid":"65dd2cb64c5ca79c656c27ea"},"Username":"TheOgLamp","Password":"Neuqua44!","Email":"lamp44@gmail.com","Birthday":{"$date":"1998-02-19T00:00:00Z"},"FavoriteMovies":[{"$oid":"659603ab4f3b90ea2185cebf"},{"$oid":"65960a134f3b90ea2185cec2"}],"__v":0}
+{"_id":{"$oid":"65dd63d24c5ca79c656c27f1"},"Username":"CocaCola","Password":"Faithy20","Email":"CocaCola@gmail.com","Birthday":{"$date":"1999-09-01T00:00:00Z"},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"65de98c3bbc4b11f8a6179c2"},"Username":"Nick","Password":"Tess14","Email":"lamp44@gmai.com","Birthday":{"$date":"2014-09-15T04:00:00Z"},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"65e09fd8c584ef2611365928"},"Username":"Nora","Password":"judge","Email":"NjLamp@gmai.com","Birthday":{"$date":{"$numberLong":"-150508800000"}},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"65e0a61b5cc9077dcdb1d28c"},"Username":"NickLamp","Password":"Tess14","Email":"NvLamp@gmai.com","Birthday":{"$date":"1998-02-19T00:00:00Z"},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"65e618817ea6819635325e2c"},"Username":"Noelle","Password":"Ollie21","Email":"NCLamp@gmai.com","Birthday":{"$date":"1995-12-23T00:00:00Z"},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"660dea78ad64f9d0df7ee527"},"Username":"Test","Password":"Test123","Email":"test123@gmail.com","Birthday":{"$date":{"$numberLong":"-204595200000"}},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"660df3e24c6e5402c8651d9f"},"Username":"Test2","Password":"Test1234","Email":"test1234@gmail.com","Birthday":{"$date":{"$numberLong":"-204595200000"}},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"660e91807a5b7f87fe3a904e"},"Username":"Test3","Password":"Test12345","Email":"test12345@gmail.com","Birthday":{"$date":{"$numberLong":"-204595200000"}},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"660e99092b9641399b38b334"},"Username":"Test4","Password":"Test12","Email":"test12@gmail.com","Birthday":{"$date":{"$numberLong":"-204595200000"}},"FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"660f1068327923d428fa6f50"},"Username":"Test5","Password":"Test5","Email":"test5@gmail.com","Birthday":{"$date":{"$numberLong":"-204595200000"}},"FavoriteMovies":[],"__v":0}

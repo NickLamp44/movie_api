@@ -8,7 +8,14 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const { check, validationResult } = require("express-validator");
 
-mongoose.connect("mongodb://localhost:27017/cfDB", {
+// Local DB
+// mongoose.connect("mongodb://localhost:27017/cfDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+// Online DB
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -279,5 +286,8 @@ app.delete(
 // Listen for requests
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
-  console.log("Listening on Port " + port);
+  console.log("Listening on Port " + port + ":)");
 });
+
+//    mongoimport --uri mongodb+srv://Nicklamp44:Quinnipiac44@cluster0.6svpe0l.mongodb.net/cfDB --collection movies --type json --file Movies.json
+//  mongoexport -d cfDB -c users -o users.json
