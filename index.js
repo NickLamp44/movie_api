@@ -1,12 +1,15 @@
-const express = require("express");
+const express = require("express"),
+  mongoose = require("mongoose"),
+  models = require("./models.js"),
+  { check, validateResult } = require("express-validator");
+
+// Middleware for parsing requests
 const app = express();
-const bodyParser = require("body-parser");
-uuid = require("uuid");
-const mongoose = require("mongoose");
-const Models = require("./models");
-const Movies = Models.Movie;
-const Users = Models.User;
-const { check, validationResult } = require("express-validator");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const Movies = models.Movie;
+const Users = models.User;
 
 // Local DB
 // mongoose.connect("mongodb://localhost:27017/cfDB", {
@@ -20,20 +23,25 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useUnifiedTopology: true,
 });
 
-// Middleware for parsing requests
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// CORS
 const cors = require("cors");
 app.use(cors());
 
-// AUTH
-let auth = require("./auth")(app);
-
+// Middleware
+let auth = require("./Auth.js")(app);
 const passport = require("passport");
-const { validate } = require("uuid");
 require("./passport");
+app.use(passport.initialize());
+
+const { validate } = require("uuid");
+
+// READ
+
+app.get("/", (req, res) => {
+  res.send("Welcome to Nicks top 10 Movies!");
+});
+
+// serve the documentation.html"
+app.use(express.static("public"));
 
 // CREATE
 app.post(
@@ -49,7 +57,7 @@ app.post(
   ],
   async (req, res) => {
     // Validate Object for any errors
-    let errors = validateResult(req);
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.arry() });
     }
@@ -82,12 +90,6 @@ app.post(
       });
   }
 );
-
-// READ
-
-app.get("/", (req, res) => {
-  res.send("Welcome to Nicks top 10 Movies!");
-});
 
 // Get all Users
 app.get(
@@ -265,7 +267,7 @@ app.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     Users.findOneAndUpdate(
-      { Username: req.params.userName },
+      { Username: req.params.Username },
       { $pull: { FavoriteMovies: req.params.MovieID } },
       { new: true }
     )
