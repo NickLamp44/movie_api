@@ -1,7 +1,10 @@
 const express = require("express"),
+  { check, validateResult } = require("express-validator"),
+  uuid = require("uuid"),
+  bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
   models = require("./models.js"),
-  { check, validateResult } = require("express-validator");
+  morgan = require("morgan");
 
 // Middleware for parsing requests
 const app = express();
@@ -24,6 +27,24 @@ mongoose.connect(process.env.CONNECTION_URI, {
 });
 
 const cors = require("cors");
+
+let allowedOrigins = ["http://localhost:8080"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // if origin isnt allowed
+        let message =
+          "The CORS policy for this application doesnt allow access from origin" +
+          origin;
+        return callback(new Error(message), false);
+      }
+    },
+  })
+);
+
 app.use(cors());
 
 // Middleware
@@ -31,6 +52,8 @@ let auth = require("./Auth.js")(app);
 const passport = require("passport");
 require("./passport");
 app.use(passport.initialize());
+app.use(morgan("common"));
+app.use(bodyParser.json());
 
 const { validate } = require("uuid");
 
@@ -47,12 +70,12 @@ app.use(express.static("public"));
 app.post(
   "/Users",
   [
-    check("Username", "Username is required").notEmpty(),
+    check("Username", "Username is required").isLength({ min: 5 }),
     check(
       "Username",
       "Username contains non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
-    check("Password", "Password is required").notEmpty(),
+    check("Password", "Password is required").not().isEmpty(),
     check("Email", "Email does not appear to be valid").isEmail(),
   ],
   async (req, res) => {
@@ -288,7 +311,7 @@ app.delete(
 // Listen for requests
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
-  console.log("Listening on Port " + port + ":)");
+  console.log("Listening on Port " + port + "! :)");
 });
 
 //    mongoimport --uri mongodb+srv://Nicklamp44:Quinnipiac44@cluster0.6svpe0l.mongodb.net/cfDB --collection movies --type json --file Movies.json
