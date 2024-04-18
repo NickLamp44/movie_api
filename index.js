@@ -20,7 +20,15 @@ const Users = models.User;
 //   useUnifiedTopology: true,
 // });
 
-// Online DB
+// mongoose.connect(
+//   "mongodb+srv://Nicklamp44:Boston21@cluster0.6svpe0l.mongodb.net/cfDB?retryWrites=true&w=majority&appName=Cluster0",
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   }
+// );
+
+// // Online DB
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -314,5 +322,10 @@ app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port " + port + "! :)");
 });
 
-//    mongoimport --uri mongodb+srv://Nicklamp44:Quinnipiac44@cluster0.6svpe0l.mongodb.net/cfDB --collection movies --type json --file Movies.json
-//  mongoexport -d cfDB -c users -o users.json
+mongoose.connection.on(
+  "error",
+  console.error.bind(console, "MongoDB connection error:")
+);
+
+//helpdesk
+// https://help.heroku.com/sharing/a146edf5-0337-4e20-99da-5ca110a38a71
