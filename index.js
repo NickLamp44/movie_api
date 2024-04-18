@@ -36,7 +36,10 @@ mongoose.connect(process.env.CONNECTION_URI, {
 
 const cors = require("cors");
 
-let allowedOrigins = ["http://localhost:8080"];
+let allowedOrigins = [
+  "http://localhost:8080",
+  "https://nicks-flix-a331980685c2.herokuapp.com",
+];
 
 app.use(
   cors({
