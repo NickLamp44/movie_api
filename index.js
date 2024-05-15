@@ -16,23 +16,23 @@ const Users = models.User;
 
 // Local DB
 // mongoose.connect("mongodb://localhost:27017/cfDB", {
+//   // useNewUrlParser: true,
+//   // useUnifiedTopology: true,
+// });
+
+mongoose.connect(
+  "mongodb+srv://Nicklamp44:Boston21@cluster0.6svpe0l.mongodb.net/cfDB",
+  {
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  }
+);
+
+// // Online DB
+// mongoose.connect(process.env.CONNECTION_Test_URI, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });
-
-// mongoose.connect(
-//   "mongodb+srv://Nicklamp44:Boston21@cluster0.6svpe0l.mongodb.net/cfDB?retryWrites=true&w=majority&appName=Cluster0",
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   }
-// );
-
-// // Online DB
-mongoose.connect(process.env.CONNECTION_Test_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 const cors = require("cors");
 
@@ -79,7 +79,7 @@ app.use(express.static("public"));
 
 // CREATE
 app.post(
-  "/Users",
+  "/users",
   [
     check("Username", "Username is required").isLength({ min: 5 }),
     check(
@@ -127,7 +127,7 @@ app.post(
 
 // Get all Users
 app.get(
-  "/Users",
+  "/users",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Users.find()
@@ -143,7 +143,7 @@ app.get(
 
 // Get a user by Username
 app.get(
-  "/Users/:Username",
+  "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
@@ -159,7 +159,7 @@ app.get(
 
 // Get all Movies
 app.get(
-  "/Movies",
+  "/movies",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movies.find()
@@ -175,7 +175,7 @@ app.get(
 
 // Get a specific Movies
 app.get(
-  "/Movies/:Title",
+  "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movies.findOne({ Title: req.params.Title })
@@ -191,7 +191,7 @@ app.get(
 
 // Get movies with a specific genre
 app.get(
-  "/Movies/Genres/:genreName",
+  "/movies/genres/:genreName",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movies.findOne({ "Genre.Name": req.params.genreName })
@@ -207,7 +207,7 @@ app.get(
 
 // Get a movie with a specific director
 app.get(
-  "/Movies/Directors/:directorName",
+  "/movies/directors/:directorName",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movies.findOne({ "Director.Name": req.params.directorName })
@@ -222,14 +222,14 @@ app.get(
 );
 
 // Get Documentation page
-app.get("/Documentation", (req, res) => {
+app.get("/documentation", (req, res) => {
   res.sendFile("public/documentatio.html", { root: __dirname });
 });
 
 // UPDATE *
 // Updates Users Info
 app.put(
-  "/Users/:Username",
+  "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Users.findOneAndUpdate(
@@ -256,7 +256,7 @@ app.put(
 
 // Adds a movie to a users lists of fav movies
 app.post(
-  "/Users/:Username/movies/:MovieID",
+  "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Users.findOneAndUpdate(
@@ -277,7 +277,7 @@ app.post(
 // DELETE
 // Delete User by Username
 app.delete(
-  "/Users/:Username",
+  "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     Users.findOneAndDelete({ Username: req.params.Username })
@@ -297,7 +297,7 @@ app.delete(
 
 // Delete User favorite movie
 app.delete(
-  "/Users/:id/:movieTitle",
+  "/users/:id/:movieTitle",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     Users.findOneAndUpdate(
