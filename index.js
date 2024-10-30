@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -24,8 +25,8 @@ mongoose
   })
   .then(() => console.log("Database connected successfully"))
   .catch((error) => {
-    console.error("Database connection error:", error);
-    process.exit(1); // Exit with failure code if DB connection fails
+    console.error("Database connection error:", error.message || error);
+    process.exit(1);
   });
 
 // Middleware for parsing requests
@@ -56,7 +57,7 @@ console.log("CONNECTION_URI:", process.env.CONNECTION_URI);
 console.log("PORT:", process.env.PORT);
 
 // Import Authentication and Passport Setup
-let auth = require("./auth")(app);
+let auth = require("./middleware/auth")(app);
 const passport = require("passport");
 require("./passport");
 
