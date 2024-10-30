@@ -9,10 +9,21 @@ const Users = Models.User;
 
 const { check, validationResult } = require("express-validator");
 
-mongoose.connect("mongodb://localhost:27017/cfDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// mongoose.connect("mongodb://localhost:27017/cfDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+mongoose
+  .connect(process.env.CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Database connected successfully"))
+  .catch((error) => {
+    console.error("Database connection error:", error);
+    process.exit(1); // Exit with failure code if DB connection fails
+  });
 
 // Middleware for parsing requests
 app.use(bodyParser.urlencoded({ extended: true }));
