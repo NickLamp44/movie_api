@@ -14,8 +14,6 @@ const { check, validationResult } = require("express-validator");
 //   useUnifiedTopology: true,
 // });
 
-const { check, validationResult } = require("express-validator");
-
 // Database Connection
 console.log("Attempting to connect to MongoDB...");
 
