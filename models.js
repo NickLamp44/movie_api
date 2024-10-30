@@ -20,7 +20,7 @@ let movieSchema = mongoose.Schema({
 });
 
 let userSchema = mongoose.Schema({
-  Username: { type: String, required: true },
+  userName: { type: String, required: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true },
   Birthday: Date,
@@ -40,5 +40,3 @@ let User = mongoose.model("User", userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
-
-// this is current 3.4.24
