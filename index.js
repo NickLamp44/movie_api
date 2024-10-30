@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+app.use(express.json());
 const bodyParser = require("body-parser");
 uuid = require("uuid");
 const mongoose = require("mongoose");
@@ -64,34 +65,83 @@ require("./passport");
 // Routes and Controllers
 
 // CREATE
+// app.post(
+//   "/users",
+//   [
+//     check("userName", "userName is required").isLength({ min: 5 }),
+//     check(
+//       "userName",
+//       "userName contains non-alphanumeric characters - not allowed."
+//     ).isAlphanumeric(),
+//     check("Password", "Password is required").not().isEmpty(),
+//     check("Email", "Email does not appear to be valid").isEmail(),
+//   ],
+//   async (req, res) => {
+//     let errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       console.log("Validation errors:", errors.array());
+//       return res.status(422).json({ errors: errors.array() });
+//     }
+
+//     let hashedPassword = Users.hashPassword(req.body.Password);
+//     console.log("Request Body:", req.body);
+
+//     await Users.findOne({ userName: req.body.userName })
+//       .then((user) => {
+//         if (user) {
+//           return res.status(400).send(req.body.userName + " already exists");
+//         } else {
+//           Users.create({
+//             userName: req.body.userName,
+//             Password: hashedPassword,
+//             Email: req.body.Email,
+//             Birthday: req.body.Birthday,
+//           })
+//             .then((user) => {
+//               res.status(201).json(user);
+//             })
+//             .catch((error) => {
+//               console.error("Error creating user:", error);
+//               res.status(500).send("Error: " + error);
+//             });
+//         }
+//       })
+//       .catch((error) => {
+//         console.error("Error finding user:", error);
+//         res.status(500).send("Error: " + error);
+//       });
+//   }
+// );
+
 app.post(
   "/users",
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    check("username", "username is required").isLength({ min: 5 }),
     check(
-      "Username",
-      "Username contains non-alphanumeric characters - not allowed."
+      "username",
+      "username contains non-alphanumeric characters - not allowed."
     ).isAlphanumeric(),
     check("Password", "Password is required").not().isEmpty(),
     check("Email", "Email does not appear to be valid").isEmail(),
   ],
   async (req, res) => {
+    console.log("Request Body:", req.body); // Log the incoming request body
     let errors = validationResult(req);
+    console.log("Validation errors:", errors.array()); // Log any validation errors
+
     if (!errors.isEmpty()) {
-      console.log("Validation errors:", errors.array());
       return res.status(422).json({ errors: errors.array() });
     }
 
     let hashedPassword = Users.hashPassword(req.body.Password);
-    console.log("Request Body:", req.body);
 
-    await Users.findOne({ userName: req.body.userName })
+    await Users.findOne({ username: req.body.username })
       .then((user) => {
         if (user) {
-          return res.status(400).send(req.body.userName + " already exists");
+          return res.status(400).send(req.body.username + " already exists");
         } else {
           Users.create({
-            userName: req.body.userName,
+            username: req.body.username,
             Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday,
