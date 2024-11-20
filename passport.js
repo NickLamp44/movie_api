@@ -10,28 +10,34 @@ let Users = Models.User,
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "userName",
-      passwordField: "Password",
+      usernameField: "username", // This must match the client payload
+      passwordField: "password",
     },
-    async (username, password, callback) => {
-      console.log(`${username} ${password}`);
-      await Users.findOne({ userName: username })
-        .then((user) => {
-          if (!user) {
-            console.log("incorrect username");
-            return callback(null, false, {
-              message: "Incorrect username or password.",
-            });
-          }
-          console.log("finished");
-          return callback(null, user);
-        })
-        .catch((error) => {
-          if (error) {
-            console.log(error);
-            return callback(error);
-          }
-        });
+    async (username, password, done) => {
+      console.log("Authenticating user:", username); // Log the username
+
+      try {
+        // Match the database field name exactly (case-sensitive)
+        const user = await Users.findOne({ username: username }); // Use 'Username' here
+        if (!user) {
+          console.log("User not found in database for username:", username);
+          return done(null, false, { message: "Incorrect username" });
+        }
+
+        console.log("User found in database:", user);
+
+        const isValid = user.validatePassword(password);
+        if (!isValid) {
+          console.log("Password validation failed for user:", username);
+          return done(null, false, { message: "Incorrect password" });
+        }
+
+        console.log("User authenticated successfully:", username);
+        return done(null, user);
+      } catch (error) {
+        console.error("Error during authentication:", error);
+        return done(error);
+      }
     }
   )
 );
