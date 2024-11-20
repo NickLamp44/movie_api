@@ -110,23 +110,50 @@ const Users = Models.User;
 //   }
 // );
 
+// app.post("/users", async (req, res) => {
+//   const { username, password, email, birthday } = req.body;
+
+//   try {
+//     const hashedPassword = Users.hashPassword(password);
+//     const newUser = new Users({
+//       username,
+//       password: hashedPassword,
+//       email,
+//       birthday,
+//     });
+//     const savedUser = await newUser.save();
+
+//     res.status(201).json(savedUser);
+//   } catch (error) {
+//     console.error("Error creating user:", error);
+//     res.status(500).send("Internal server error");
+//   }
+// });
+
 app.post("/users", async (req, res) => {
-  const { username, password, email, birthday } = req.body;
+  console.log("Incoming request body:", req.body); // Log incoming request
+
+  const { username, password, Email, Birthday } = req.body;
+
+  // Validate all required fields
+  if (!username || !password || !Email || !Birthday) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
 
   try {
-    const hashedPassword = Users.hashPassword(password);
+    const hashedPassword = Users.hashPassword(password); // Hash the password
     const newUser = new Users({
       username,
-      password: hashedPassword,
-      email,
-      birthday,
+      password: hashedPassword, // Use 'password' here
+      Email,
+      birthday: Birthday, // Match the schema field name
     });
-    const savedUser = await newUser.save();
 
-    res.status(201).json(savedUser);
+    const savedUser = await newUser.save();
+    return res.status(201).json(savedUser); // Return the created user
   } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).send("Internal server error");
+    console.error("Error creating user:", error); // Log the error
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 
