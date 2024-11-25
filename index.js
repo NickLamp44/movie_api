@@ -41,6 +41,7 @@ const allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
   "https://nicks-myflix.netlify.app",
+  "https://nicksflix.netlify.app/",
 ];
 app.use(
   cors({
@@ -71,65 +72,6 @@ app.get("/", (req, res) => res.send("Welcome to Nicks top 10 Movies!"));
 
 // Users Endpoints
 const Users = Models.User;
-
-// app.post(
-//   "/users",
-//   [
-//     check("username", "Username is required").isLength({ min: 5 }),
-//     check("username", "Username must be alphanumeric").isAlphanumeric(),
-//     check("Password", "Password is required").not().isEmpty(),
-//     check("Email", "Invalid email format").isEmail(),
-//   ],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(422).json({ errors: errors.array() });
-//     }
-
-//     try {
-//       const { username, Password, Email, Birthday } = req.body;
-//       const existingUser = await Users.findOne({ username });
-
-//       if (existingUser) {
-//         return res.status(400).send(`${username} already exists`);
-//       }
-
-//       const hashedPassword = Users.hashPassword(Password);
-//       const newUser = await Users.create({
-//         username,
-//         Password: hashedPassword,
-//         Email,
-//         Birthday,
-//       });
-
-//       res.status(201).json(newUser);
-//     } catch (error) {
-//       console.error("Error creating user:", error);
-//       res.status(500).send("Error: " + error.message);
-//     }
-//   }
-// );
-
-// app.post("/users", async (req, res) => {
-//   const { username, password, email, birthday } = req.body;
-
-//   try {
-//     const hashedPassword = Users.hashPassword(password);
-//     const newUser = new Users({
-//       username,
-//       password: hashedPassword,
-//       email,
-//       birthday,
-//     });
-//     const savedUser = await newUser.save();
-
-//     res.status(201).json(savedUser);
-//   } catch (error) {
-//     console.error("Error creating user:", error);
-//     res.status(500).send("Internal server error");
-//   }
-// });
-
 app.post("/users", async (req, res) => {
   console.log("Incoming request body:", req.body); // Log incoming request
 
