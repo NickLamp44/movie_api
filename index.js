@@ -41,7 +41,7 @@ const allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
   "https://nicks-myflix.netlify.app",
-  "https://nicksflix.netlify.app/",
+  "https://nicksflix.netlify.app",
 ];
 app.use(
   cors({
