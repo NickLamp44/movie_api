@@ -40,7 +40,6 @@ app.use(bodyParser.json());
 const allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
-  "https://nicks-myflix.netlify.app",
   "https://nicksflix.netlify.app",
 ];
 app.use(
@@ -195,6 +194,19 @@ app.get(
     }
   }
 );
+
+app.post("/users/:id/watchlist/:movieId", (req, res) => {
+  const { id, movieId } = req.params;
+
+  User.findByIdAndUpdate(
+    id,
+    { $addToSet: { Watchlist: movieId } }, // Use `$addToSet` to avoid duplicates
+    { new: true } // Return the updated user
+  )
+    .populate("Watchlist") // Populate watchlist details if necessary
+    .then((updatedUser) => res.json(updatedUser))
+    .catch((error) => res.status(500).json({ error: error.message }));
+});
 
 app.get(
   "/movies/genres/:genreName",
