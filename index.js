@@ -198,7 +198,7 @@ app.get(
 app.post("/users/:id/watchlist/:movieId", (req, res) => {
   const { id, movieId } = req.params;
 
-  User.findByIdAndUpdate(
+  Users.findByIdAndUpdate(
     id,
     { $addToSet: { Watchlist: movieId } }, // Use `$addToSet` to avoid duplicates
     { new: true } // Return the updated user
