@@ -202,15 +202,51 @@ app.post(
   (req, res) => {
     const { id, movieId } = req.params;
 
-  User.findByIdAndUpdate(
-    id,
-    { $addToSet: { Watchlist: movieId } }, // Use `$addToSet` to avoid duplicates
-    { new: true } // Return the updated user
-  )
-    .populate("Watchlist") // Populate watchlist details if necessary
-    .then((updatedUser) => res.json(updatedUser))
-    .catch((error) => res.status(500).json({ error: error.message }));
-});
+    Users.findByIdAndUpdate(
+      // Corrected to Users
+      id,
+      { $addToSet: { Watchlist: movieId } }, // Use `$addToSet` to avoid duplicates
+      { new: true } // Return the updated user
+    )
+      .populate("Watchlist") // Populate watchlist details if necessary
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          return res.status(404).send("User not found");
+        }
+        res.json(updatedUser);
+      })
+      .catch((error) => {
+        console.error("Error adding movie to watchlist:", error);
+        res.status(500).json({ error: error.message });
+      });
+  }
+);
+
+// Remove a movie from a user's watchlist
+app.delete(
+  "/users/:id/watchlist/:movieId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { id, movieId } = req.params;
+
+    Users.findByIdAndUpdate(
+      id,
+      { $pull: { Watchlist: movieId } }, // Use $pull to remove the movie ID
+      { new: true } // Return the updated user
+    )
+      .populate("Watchlist") // Populate watchlist details if necessary
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          return res.status(404).send("User not found");
+        }
+        res.json(updatedUser);
+      })
+      .catch((error) => {
+        console.error("Error removing movie from watchlist:", error);
+        res.status(500).json({ error: error.message });
+      });
+  }
+);
 
 app.get(
   "/movies/genres/:genreName",
