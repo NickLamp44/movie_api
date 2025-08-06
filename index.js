@@ -195,10 +195,14 @@ app.get(
   }
 );
 
-app.post("/users/:id/watchlist/:movieId", (req, res) => {
-  const { id, movieId } = req.params;
+// Add a movie to a user's watchlist
+app.post(
+  "/users/:id/watchlist/:movieId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { id, movieId } = req.params;
 
-  Users.findByIdAndUpdate(
+  User.findByIdAndUpdate(
     id,
     { $addToSet: { Watchlist: movieId } }, // Use `$addToSet` to avoid duplicates
     { new: true } // Return the updated user
